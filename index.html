@@ -3,269 +3,405 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>DMIS | Drill Maintenance & Inventory System</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f4f6f8;
-  color: #1f2937;
+:root{
+  --navy:#0b1f33;
+  --navy2:#123653;
+  --blue:#1976d2;
+  --light:#f4f7fb;
+  --white:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --border:#e3e8ef;
+  --green:#198754;
+  --orange:#f59e0b;
+  --red:#dc3545;
 }
 
-header {
-  height: 70px;
-  background: #111827;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--light);
+  color:var(--text);
 }
 
-.brand h1 {
-  font-size: 24px;
+header{
+  height:74px;
+  background:linear-gradient(90deg,#0b1f33,#123653);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
 }
 
-.brand span {
-  font-size: 12px;
-  color: #9ca3af;
+.brand h1{
+  font-size:25px;
+  letter-spacing:.5px;
 }
 
-.user {
-  font-size: 14px;
+.brand p{
+  font-size:12px;
+  opacity:.8;
+  margin-top:3px;
 }
 
-.layout {
-  display: flex;
-  min-height: calc(100vh - 70px);
+.portal{
+  font-size:14px;
+  font-weight:bold;
 }
 
-.sidebar {
-  width: 240px;
-  background: #1f2937;
-  color: white;
-  padding: 25px 15px;
+.sidebar{
+  width:245px;
+  position:fixed;
+  left:0;
+  top:74px;
+  bottom:0;
+  background:#123653;
+  color:white;
+  padding:20px 12px;
+  overflow-y:auto;
 }
 
-.sidebar h3 {
-  font-size: 12px;
-  color: #9ca3af;
-  margin: 15px 12px 8px;
-  text-transform: uppercase;
+.menu-title{
+  font-size:11px;
+  color:#a9bfd2;
+  font-weight:bold;
+  margin:17px 12px 7px;
 }
 
-.nav {
-  padding: 12px;
-  border-radius: 7px;
-  margin: 4px 0;
-  cursor: pointer;
-  color: #d1d5db;
+.menu{
+  display:block;
+  padding:11px 14px;
+  margin:3px 0;
+  border-radius:7px;
+  cursor:pointer;
+  color:#eef6fc;
+  font-size:14px;
+  transition:.2s;
 }
 
-.nav:hover,
-.nav.active {
-  background: #374151;
-  color: white;
+.menu:hover,
+.menu.active{
+  background:#285574;
 }
 
-.main {
-  flex: 1;
-  padding: 30px;
-  overflow-x: auto;
+.main{
+  margin-left:245px;
+  padding:104px 30px 40px;
 }
 
-.page-title {
-  margin-bottom: 5px;
+.page{
+  display:none;
 }
 
-.subtitle {
-  color: #6b7280;
-  margin-bottom: 25px;
+.page.active{
+  display:block;
 }
 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin-bottom: 30px;
+.page-head{
+  margin-bottom:22px;
 }
 
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
+.page-head h2{
+  font-size:30px;
+  color:#17243a;
 }
 
-.card p {
-  color: #6b7280;
-  font-size: 13px;
+.page-head p{
+  color:var(--muted);
+  margin-top:6px;
 }
 
-.card h2 {
-  margin-top: 8px;
-  font-size: 27px;
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:25px;
 }
 
-.section {
-  background: white;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-  margin-bottom: 25px;
-  overflow: hidden;
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
 }
 
-.section-header {
-  padding: 18px 20px;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.card .label{
+  color:#7b8794;
+  font-size:12px;
+  font-weight:bold;
 }
 
-.section-header h3 {
-  font-size: 17px;
+.card .value{
+  font-size:28px;
+  margin-top:8px;
+  font-weight:bold;
+  color:#17243a;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:22px;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
 }
 
-th {
-  background: #f9fafb;
-  text-align: left;
-  padding: 13px 15px;
-  font-size: 12px;
-  color: #6b7280;
+.panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
 }
 
-td {
-  padding: 14px 15px;
-  border-top: 1px solid #e5e7eb;
-  font-size: 14px;
+.panel h3{
+  font-size:18px;
 }
 
-.status {
-  display: inline-block;
-  padding: 5px 9px;
-  border-radius: 20px;
-  font-size: 11px;
-  background: #dcfce7;
-  color: #166534;
+table{
+  width:100%;
+  border-collapse:collapse;
 }
 
-.pending {
-  background: #fef3c7;
-  color: #92400e;
+th{
+  text-align:left;
+  font-size:12px;
+  color:#657386;
+  background:#f7f9fc;
+  padding:12px;
+  border-bottom:1px solid var(--border);
 }
 
-.search {
-  width: 100%;
-  max-width: 500px;
-  padding: 11px;
-  border: 1px solid #d1d5db;
-  border-radius: 7px;
+td{
+  padding:13px 12px;
+  border-bottom:1px solid #edf0f4;
+  font-size:14px;
 }
 
-.button {
-  background: #111827;
-  color: white;
-  border: 0;
-  padding: 10px 15px;
-  border-radius: 7px;
-  cursor: pointer;
+tr:hover td{
+  background:#fafcff;
 }
 
-.page {
-  display: none;
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
 }
 
-.page.active {
-  display: block;
+.green{
+  color:#147443;
+  background:#e4f6ec;
 }
 
-.machine-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 18px;
+.orange{
+  color:#946000;
+  background:#fff2cc;
 }
 
-.machine {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
+.gray{
+  color:#53606d;
+  background:#edf1f5;
 }
 
-.machine h2 {
-  margin-bottom: 5px;
+.red{
+  color:#a1202d;
+  background:#fde7ea;
 }
 
-.machine small {
-  color: #6b7280;
+.search-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
 }
 
-.hours {
-  margin-top: 18px;
+input,select,textarea{
+  border:1px solid #ccd5df;
+  border-radius:7px;
+  padding:11px;
+  font-size:14px;
+  background:white;
 }
 
-.hours p {
-  margin: 7px 0;
+input:focus,select:focus,textarea:focus{
+  outline:2px solid #b7d8fa;
+  border-color:#1976d2;
 }
 
-.notice {
-  margin-top: 15px;
-  padding: 10px;
-  background: #fef3c7;
-  color: #92400e;
-  border-radius: 7px;
-  font-size: 13px;
+.search{
+  min-width:310px;
+  flex:1;
 }
 
-@media(max-width:900px) {
+.btn{
+  border:0;
+  border-radius:7px;
+  padding:11px 15px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:13px;
+}
 
-  .sidebar {
-    width: 190px;
+.btn-primary{
+  background:var(--blue);
+  color:white;
+}
+
+.btn-dark{
+  background:var(--navy);
+  color:white;
+}
+
+.btn-light{
+  background:#edf2f7;
+  color:#26384b;
+}
+
+.machine-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.machine-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+}
+
+.machine-name{
+  font-size:24px;
+  font-weight:bold;
+  color:#123653;
+}
+
+.machine-model{
+  color:#6d7885;
+  margin:5px 0 18px;
+}
+
+.stat{
+  display:flex;
+  justify-content:space-between;
+  padding:9px 0;
+  border-bottom:1px solid #edf0f4;
+  font-size:14px;
+}
+
+.warning-box{
+  border-left:4px solid var(--orange);
+  background:#fff9e8;
+  padding:15px;
+  border-radius:6px;
+  margin-top:15px;
+}
+
+.location-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.location{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:17px;
+  cursor:pointer;
+}
+
+.location:hover{
+  border-color:#1976d2;
+}
+
+.location strong{
+  display:block;
+  color:#123653;
+  margin-bottom:6px;
+}
+
+.report{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+  margin-bottom:14px;
+}
+
+.report h4{
+  margin-bottom:8px;
+}
+
+.empty{
+  color:#7a8794;
+  text-align:center;
+  padding:30px;
+}
+
+.mobile-menu{
+  display:none;
+}
+
+@media(max-width:1000px){
+  .cards{grid-template-columns:repeat(2,1fr);}
+  .machine-grid{grid-template-columns:1fr;}
+  .location-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+@media(max-width:700px){
+  header{
+    height:65px;
+    padding:0 15px;
   }
 
-  .cards {
-    grid-template-columns: repeat(2,1fr);
+  .brand h1{font-size:20px;}
+  .portal{display:none;}
+
+  .mobile-menu{
+    display:block;
+    font-size:22px;
+    cursor:pointer;
   }
 
-  .machine-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media(max-width:650px) {
-
-  header {
-    padding: 0 15px;
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s;
+    top:65px;
+    z-index:99;
   }
 
-  .layout {
-    display: block;
+  .sidebar.open{
+    transform:translateX(0);
   }
 
-  .sidebar {
-    width: 100%;
+  .main{
+    margin-left:0;
+    padding:90px 15px 30px;
   }
 
-  .main {
-    padding: 18px;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
+  .cards{grid-template-columns:1fr;}
+  .location-grid{grid-template-columns:1fr;}
+  .search{min-width:100%;}
+  .panel{overflow-x:auto;}
 }
 </style>
 </head>
@@ -273,587 +409,785 @@ td {
 <body>
 
 <header>
+  <div class="mobile-menu" onclick="toggleSidebar()">☰</div>
 
-<div class="brand">
-<h1>DMIS</h1>
-<span>Drill Maintenance & Inventory System</span>
-</div>
+  <div class="brand">
+    <h1>DMIS</h1>
+    <p>Drill Maintenance & Inventory System</p>
+  </div>
 
-<div class="user">
-Technician Portal
-</div>
-
+  <div class="portal">Technician Portal</div>
 </header>
 
-<div class="layout">
+<aside class="sidebar" id="sidebar">
 
-<aside class="sidebar">
+  <div class="menu-title">OVERVIEW</div>
+  <div class="menu active" onclick="showPage('dashboard',this)">Dashboard</div>
 
-<h3>Overview</h3>
+  <div class="menu-title">INVENTORY</div>
+  <div class="menu" onclick="showPage('inventory',this)">Parts Inventory</div>
+  <div class="menu" onclick="showPage('locations',this)">Stock Locations</div>
+  <div class="menu" onclick="showPage('movements',this)">Stock Movements</div>
 
-<div class="nav active" onclick="showPage('dashboard',this)">
-Dashboard
-</div>
+  <div class="menu-title">EQUIPMENT</div>
+  <div class="menu" onclick="showPage('machines',this)">Machines</div>
 
-<h3>Inventory</h3>
+  <div class="menu-title">MAINTENANCE</div>
+  <div class="menu" onclick="showPage('daily',this)">Daily Maintenance</div>
+  <div class="menu" onclick="showPage('pm',this)">Preventive Maintenance</div>
+  <div class="menu" onclick="showPage('tasks',this)">Planned Tasks</div>
 
-<div class="nav" onclick="showPage('inventory',this)">
-Parts Inventory
-</div>
+  <div class="menu-title">REPORTING</div>
+  <div class="menu" onclick="showPage('reports',this)">Reports</div>
 
-<div class="nav" onclick="showPage('locations',this)">
-Stock Locations
-</div>
-
-<div class="nav">
-Stock Movements
-</div>
-
-<h3>Equipment</h3>
-
-<div class="nav" onclick="showPage('machines',this)">
-Machines
-</div>
-
-<h3>Maintenance</h3>
-
-<div class="nav">
-Daily Maintenance
-</div>
-
-<div class="nav" onclick="showPage('pm',this)">
-Preventive Maintenance
-</div>
-
-<div class="nav">
-Planned Tasks
-</div>
-
-<div class="nav">
-Maintenance History
-</div>
-
-<h3>Management</h3>
-
-<div class="nav">
-Reports
-</div>
-
-<div class="nav">
-Users & Permissions
-</div>
+  <div class="menu-title">ADMINISTRATION</div>
+  <div class="menu" onclick="showPage('settings',this)">Settings</div>
 
 </aside>
 
 <main class="main">
 
-<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
 
-<section id="dashboard" class="page active">
+  <div class="page-head">
+    <h2>Dashboard</h2>
+    <p>Drill fleet, maintenance and inventory overview</p>
+  </div>
 
-<h1 class="page-title">Dashboard</h1>
+  <div class="cards">
+    <div class="card">
+      <div class="label">ACTIVE DRILLS</div>
+      <div class="value">3</div>
+    </div>
 
-<p class="subtitle">
-Drill fleet, maintenance and inventory overview
-</p>
+    <div class="card">
+      <div class="label">STOCK LOCATIONS</div>
+      <div class="value">19</div>
+    </div>
 
-<div class="cards">
+    <div class="card">
+      <div class="label">PM DUE</div>
+      <div class="value">--</div>
+    </div>
 
-<div class="card">
-<p>ACTIVE DRILLS</p>
-<h2>3</h2>
-</div>
+    <div class="card">
+      <div class="label">LOW STOCK</div>
+      <div class="value">--</div>
+    </div>
+  </div>
 
-<div class="card">
-<p>STOCK LOCATIONS</p>
-<h2>19</h2>
-</div>
+  <div class="panel">
+    <div class="panel-head">
+      <h3>Drill Fleet Status</h3>
+      <button class="btn btn-dark" onclick="openFromButton('machines')">View Machines</button>
+    </div>
 
-<div class="card">
-<p>PM DUE</p>
-<h2>--</h2>
-</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Model</th>
+          <th>Engine Hours</th>
+          <th>Percussion Hours</th>
+          <th>Status</th>
+        </tr>
+      </thead>
 
-<div class="card">
-<p>LOW STOCK</p>
-<h2>--</h2>
-</div>
+      <tbody>
+        <tr>
+          <td><strong>TD20</strong></td>
+          <td>Sandvik DP1500i</td>
+          <td>5603 hrs</td>
+          <td>2169.52 hrs</td>
+          <td><span class="badge green">Operational</span></td>
+        </tr>
 
-</div>
+        <tr>
+          <td><strong>TD21</strong></td>
+          <td>Sandvik DP1500i</td>
+          <td>7619 hrs</td>
+          <td>1591.35 hrs</td>
+          <td><span class="badge green">Operational</span></td>
+        </tr>
 
-<div class="section">
+        <tr>
+          <td><strong>TD22</strong></td>
+          <td>Sandvik DP1500i</td>
+          <td>5879 hrs</td>
+          <td>1946.09 hrs</td>
+          <td><span class="badge green">Operational</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<div class="section-header">
-<h3>Drill Fleet Status</h3>
-<button class="button" onclick="showPage('machines')">
-View Machines
-</button>
-</div>
+  <div class="panel">
+    <h3>System Attention</h3>
 
-<table>
-
-<thead>
-<tr>
-<th>Machine</th>
-<th>Model</th>
-<th>Engine Hours</th>
-<th>Percussion Hours</th>
-<th>Status</th>
-</tr>
-</thead>
-
-<tbody>
-
-<tr>
-<td><strong>TD20</strong></td>
-<td>Sandvik DP1500i</td>
-<td>5603 hrs</td>
-<td>2169.52 hrs</td>
-<td><span class="status">Operational</span></td>
-</tr>
-
-<tr>
-<td><strong>TD21</strong></td>
-<td>Sandvik DP1500i</td>
-<td>7619 hrs</td>
-<td>1591.35 hrs</td>
-<td><span class="status">Operational</span></td>
-</tr>
-
-<tr>
-<td><strong>TD22</strong></td>
-<td>Sandvik DP1500i</td>
-<td>5879 hrs</td>
-<td>1946.09 hrs</td>
-<td><span class="status">Operational</span></td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-<div class="section">
-
-<div class="section-header">
-<h3>System Status</h3>
-</div>
-
-<table>
-
-<tr>
-<td>PM Program</td>
-<td>
-<span class="status pending">
-Awaiting PM configuration
-</span>
-</td>
-</tr>
-
-<tr>
-<td>Low Stock Thresholds</td>
-<td>
-<span class="status pending">
-Not configured
-</span>
-</td>
-</tr>
-
-<tr>
-<td>Fleet</td>
-<td>3 Sandvik DP1500i drills</td>
-</tr>
-
-</table>
-
-</div>
+    <div class="warning-box">
+      <strong>PM program awaiting configuration</strong><br><br>
+      The PM intervals are not being calculated until the official PM
+      sequence and machine baseline information are entered.
+    </div>
+  </div>
 
 </section>
 
 
-<!-- INVENTORY -->
+<section class="page" id="inventory">
 
-<section id="inventory" class="page">
+  <div class="page-head">
+    <h2>Parts Inventory</h2>
+    <p>Search spare parts by name, part number or MCL location.</p>
+  </div>
 
-<h1 class="page-title">Parts Inventory</h1>
+  <div class="panel">
 
-<p class="subtitle">
-Search parts by name, part number or MCL location.
-</p>
+    <div class="search-row">
+      <input
+        class="search"
+        id="partSearch"
+        type="text"
+        placeholder="Search part number, description or MCL location..."
+        onkeyup="renderParts()"
+      >
 
-<div class="section">
+      <button class="btn btn-primary" onclick="alert('Part entry form will be connected to the database in the next development stage.')">
+        + Add Part
+      </button>
 
-<div class="section-header">
+      <button class="btn btn-light" onclick="exportInventory()">
+        Export CSV
+      </button>
+    </div>
 
-<input
-class="search"
-id="partSearch"
-placeholder="Search part number, description or location..."
-onkeyup="searchParts()"
->
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Part Number</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+          </tr>
+        </thead>
 
-<button class="button">+ Add Part</button>
+        <tbody id="partsBody"></tbody>
+      </table>
+    </div>
 
-</div>
-
-<table id="partsTable">
-
-<thead>
-
-<tr>
-<th>Part Number</th>
-<th>Description</th>
-<th>Location</th>
-<th>Quantity</th>
-<th>Unit</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-<td>86727280</td>
-<td>Hyd. Filter Element</td>
-<td>MCL 1/1</td>
-<td>13</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>69041541</td>
-<td>Filter Assembly</td>
-<td>MCL 1/4</td>
-<td>1</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>55022978</td>
-<td>Solenoid</td>
-<td>MCL 1/3</td>
-<td>2</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>88639149</td>
-<td>Solenoid</td>
-<td>MCL 1/3</td>
-<td>1</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>86727280</td>
-<td>Hyd. Filter Element</td>
-<td>MCL 2/1</td>
-<td>13</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>AF20020063</td>
-<td>Internal Circlip</td>
-<td>MCL 2/2</td>
-<td>1</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>20910448</td>
-<td>Slide</td>
-<td>MCL 2/2</td>
-<td>3</td>
-<td>pair</td>
-</tr>
-
-<tr>
-<td>BG01353396</td>
-<td>Filter Element</td>
-<td>MCL 2/3</td>
-<td>3</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>88021199</td>
-<td>Dust Collector Filter Insert</td>
-<td>MCL 2/4</td>
-<td>7</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>23617617</td>
-<td>Jaw R.H.</td>
-<td>MCL 3/1</td>
-<td>1</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>BG00934785</td>
-<td>Belt</td>
-<td>MCL 3/3</td>
-<td>10</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>55011218</td>
-<td>Control Valve</td>
-<td>MCL 3/3</td>
-<td>3</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>55199068</td>
-<td>Filter Element</td>
-<td>MCL 6/2</td>
-<td>10</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>81893749</td>
-<td>Filter Element</td>
-<td>MCL 8/2</td>
-<td>5</td>
-<td>pcs</td>
-</tr>
-
-<tr>
-<td>87270109</td>
-<td>Filter Element</td>
-<td>MCL 8/2</td>
-<td>5</td>
-<td>pcs</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
+  </div>
 
 </section>
 
 
-<!-- LOCATIONS -->
+<section class="page" id="locations">
 
-<section id="locations" class="page">
+  <div class="page-head">
+    <h2>Stock Locations</h2>
+    <p>Browse inventory according to physical MCL storage location.</p>
+  </div>
 
-<h1 class="page-title">Stock Locations</h1>
-
-<p class="subtitle">
-MCL physical storage structure
-</p>
-
-<div class="section">
-
-<table>
-
-<thead>
-<tr>
-<th>MCL</th>
-<th>Storage Locations</th>
-</tr>
-</thead>
-
-<tbody>
-
-<tr><td>MCL 1</td><td>1/1, 1/3, 1/4</td></tr>
-<tr><td>MCL 2</td><td>2/1, 2/2, 2/3, 2/4</td></tr>
-<tr><td>MCL 3</td><td>3/1, 3/2, 3/3</td></tr>
-<tr><td>MCL 4</td><td>4/2, 4/3</td></tr>
-<tr><td>MCL 5</td><td>5/2, 5/3</td></tr>
-<tr><td>MCL 6</td><td>6/1, 6/2, 6/3</td></tr>
-<tr><td>MCL 7</td><td>7/2</td></tr>
-<tr><td>MCL 8</td><td>8/2</td></tr>
-
-</tbody>
-
-</table>
-
-</div>
+  <div class="location-grid" id="locationGrid"></div>
 
 </section>
 
 
-<!-- MACHINES -->
+<section class="page" id="movements">
 
-<section id="machines" class="page">
+  <div class="page-head">
+    <h2>Stock Movements</h2>
+    <p>Receive, issue, return, transfer and adjust spare parts.</p>
+  </div>
 
-<h1 class="page-title">Machines</h1>
+  <div class="cards">
 
-<p class="subtitle">
-Sandvik DP1500i drill fleet
-</p>
+    <div class="card">
+      <div class="label">RECEIVE</div>
+      <div class="value">+</div>
+      <p>Add stock received into a location.</p>
+    </div>
 
-<div class="machine-grid">
+    <div class="card">
+      <div class="label">ISSUE</div>
+      <div class="value">−</div>
+      <p>Issue parts for maintenance or repairs.</p>
+    </div>
 
-<div class="machine">
+    <div class="card">
+      <div class="label">TRANSFER</div>
+      <div class="value">↔</div>
+      <p>Move stock between MCL locations.</p>
+    </div>
 
-<h2>TD20</h2>
+    <div class="card">
+      <div class="label">RETURN</div>
+      <div class="value">↩</div>
+      <p>Return unused parts to stock.</p>
+    </div>
 
-<small>Sandvik DP1500i</small>
+  </div>
 
-<div class="hours">
-<p><strong>Engine Hours:</strong> 5603 hrs</p>
-<p><strong>Percussion:</strong> 2169.52 hrs</p>
-<p><strong>Last Reading:</strong> 24 Sep 2026</p>
-</div>
+  <div class="panel">
+    <h3>Transaction History</h3>
 
-<div class="notice">
-PM baseline awaiting configuration.
-</div>
-
-</div>
-
-
-<div class="machine">
-
-<h2>TD21</h2>
-
-<small>Sandvik DP1500i</small>
-
-<div class="hours">
-<p><strong>Engine Hours:</strong> 7619 hrs</p>
-<p><strong>Percussion:</strong> 1591.35 hrs</p>
-<p><strong>Last Reading:</strong> 24 Sep 2026</p>
-</div>
-
-<div class="notice">
-PM baseline awaiting configuration.
-</div>
-
-</div>
-
-
-<div class="machine">
-
-<h2>TD22</h2>
-
-<small>Sandvik DP1500i</small>
-
-<div class="hours">
-<p><strong>Engine Hours:</strong> 5879 hrs</p>
-<p><strong>Percussion:</strong> 1946.09 hrs</p>
-<p><strong>Last Reading:</strong> 24 Sep 2026</p>
-</div>
-
-<div class="notice">
-PM baseline awaiting configuration.
-</div>
-
-</div>
-
-</div>
+    <div class="empty">
+      No stock transactions have been recorded yet.
+    </div>
+  </div>
 
 </section>
 
 
-<!-- PM -->
+<section class="page" id="machines">
 
-<section id="pm" class="page">
+  <div class="page-head">
+    <h2>Machines</h2>
+    <p>Sandvik DP1500i drill fleet.</p>
+  </div>
 
-<h1 class="page-title">Preventive Maintenance</h1>
+  <div class="machine-grid">
 
-<p class="subtitle">
-PM scheduling and service tracking
-</p>
+    <div class="machine-card">
+      <div class="machine-name">TD20</div>
+      <div class="machine-model">Sandvik DP1500i</div>
 
-<div class="section">
+      <div class="stat"><span>Status</span><span class="badge green">Operational</span></div>
+      <div class="stat"><span>Engine Hours</span><strong>5603 hrs</strong></div>
+      <div class="stat"><span>Percussion Hours</span><strong>2169.52 hrs</strong></div>
+      <div class="stat"><span>Reading Date</span><span>24 Sep 2026</span></div>
+      <div class="stat"><span>Reading Time</span><span>8:55–9:00 PM</span></div>
+      <div class="stat"><span>PM Status</span><span class="badge orange">Not Configured</span></div>
+    </div>
 
-<div class="section-header">
-<h3>PM Program</h3>
-</div>
+    <div class="machine-card">
+      <div class="machine-name">TD21</div>
+      <div class="machine-model">Sandvik DP1500i</div>
 
-<div style="padding:20px">
+      <div class="stat"><span>Status</span><span class="badge green">Operational</span></div>
+      <div class="stat"><span>Engine Hours</span><strong>7619 hrs</strong></div>
+      <div class="stat"><span>Percussion Hours</span><strong>1591.35 hrs</strong></div>
+      <div class="stat"><span>Reading Date</span><span>24 Sep 2026</span></div>
+      <div class="stat"><span>Reading Time</span><span>8:15–8:20 PM</span></div>
+      <div class="stat"><span>PM Status</span><span class="badge orange">Not Configured</span></div>
+    </div>
 
-<p>
-The DMIS PM program is currently awaiting the official maintenance schedule.
-</p>
+    <div class="machine-card">
+      <div class="machine-name">TD22</div>
+      <div class="machine-model">Sandvik DP1500i</div>
 
-<br>
+      <div class="stat"><span>Status</span><span class="badge green">Operational</span></div>
+      <div class="stat"><span>Engine Hours</span><strong>5879 hrs</strong></div>
+      <div class="stat"><span>Percussion Hours</span><strong>1946.09 hrs</strong></div>
+      <div class="stat"><span>Reading Date</span><span>24 Sep 2026</span></div>
+      <div class="stat"><span>Reading Time</span><span>8:35–8:45 PM</span></div>
+      <div class="stat"><span>PM Status</span><span class="badge orange">Not Configured</span></div>
+    </div>
 
-<p>
-Planned configurable PM intervals:
-</p>
+  </div>
 
-<br>
+</section>
 
-<strong>250H &nbsp; | &nbsp; 500H &nbsp; | &nbsp; 1000H &nbsp; | &nbsp; 1200H</strong>
 
-<div class="notice">
-No next-PM calculations will be made until the actual PM baseline and sequence are entered.
-</div>
+<section class="page" id="daily">
 
-</div>
+  <div class="page-head">
+    <h2>Daily Maintenance</h2>
+    <p>Daily drill maintenance and shift activity.</p>
+  </div>
 
-</div>
+  <div class="panel">
+
+    <div class="panel-head">
+      <h3>Daily Drill Maintenance Report</h3>
+      <span class="badge gray">24 Sep 2026 · Night Shift</span>
+    </div>
+
+    <div class="report">
+      <h4>TD20</h4>
+      <p><strong>Inspection time:</strong> 8:55 PM – 9:00 PM</p><br>
+
+      <p><strong>Work Done</strong></p>
+      <p>• Thread grease topped up</p>
+      <p>• Waste oil drained</p>
+      <p>• Fixed/remove dust box — two broken bolts replaced (2:30 AM – 3:09 AM)</p><br>
+
+      <p><strong>Engine:</strong> 5603 hrs &nbsp; | &nbsp;
+         <strong>Percussion:</strong> 2169.52 hrs</p>
+    </div>
+
+    <div class="report">
+      <h4>TD21</h4>
+      <p><strong>Inspection time:</strong> 8:15 PM – 8:20 PM</p><br>
+      <p><strong>Engine:</strong> 7619 hrs &nbsp; | &nbsp;
+         <strong>Percussion:</strong> 1591.35 hrs</p>
+    </div>
+
+    <div class="report">
+      <h4>TD22</h4>
+      <p><strong>Inspection time:</strong> 8:35 PM – 8:45 PM</p><br>
+      <p><strong>Engine:</strong> 5879 hrs &nbsp; | &nbsp;
+         <strong>Percussion:</strong> 1946.09 hrs</p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="page" id="pm">
+
+  <div class="page-head">
+    <h2>Preventive Maintenance</h2>
+    <p>PM planning and machine service intervals.</p>
+  </div>
+
+  <div class="panel">
+
+    <h3>PM Configuration</h3>
+
+    <div class="warning-box">
+      <strong>PM calculation is currently disabled.</strong><br><br>
+
+      Proposed intervals recorded for configuration:
+      <strong>250H, 500H, 1000H and 1200H.</strong><br><br>
+
+      The official PM type, sequence and machine baseline have not yet
+      been supplied. DMIS will therefore not guess the next PM or show
+      a false due date.
+    </div>
+
+  </div>
+
+  <div class="panel">
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Engine Hours</th>
+          <th>PM Program</th>
+          <th>Next PM</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>TD20</td>
+          <td>5603 hrs</td>
+          <td>Awaiting baseline</td>
+          <td>--</td>
+          <td><span class="badge orange">Not Configured</span></td>
+        </tr>
+
+        <tr>
+          <td>TD21</td>
+          <td>7619 hrs</td>
+          <td>Awaiting baseline</td>
+          <td>--</td>
+          <td><span class="badge orange">Not Configured</span></td>
+        </tr>
+
+        <tr>
+          <td>TD22</td>
+          <td>5879 hrs</td>
+          <td>Awaiting baseline</td>
+          <td>--</td>
+          <td><span class="badge orange">Not Configured</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+
+<section class="page" id="tasks">
+
+  <div class="page-head">
+    <h2>Planned Tasks</h2>
+    <p>Plan maintenance work, parts requirements and technician assignments.</p>
+  </div>
+
+  <div class="panel">
+
+    <div class="panel-head">
+      <h3>Maintenance Tasks</h3>
+
+      <button class="btn btn-primary"
+        onclick="alert('Task creation will be connected to persistent storage in the next development stage.')">
+        + New Task
+      </button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Task</th>
+          <th>Priority</th>
+          <th>Required Parts</th>
+          <th>Assigned To</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td colspan="6" class="empty">No planned tasks recorded yet.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</section>
+
+
+<section class="page" id="reports">
+
+  <div class="page-head">
+    <h2>Reports</h2>
+    <p>Maintenance, inventory and parts usage reporting.</p>
+  </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="label">MAINTENANCE</div>
+      <h3 style="margin:10px 0;">Daily Maintenance Report</h3>
+      <button class="btn btn-dark" onclick="window.print()">Print</button>
+    </div>
+
+    <div class="card">
+      <div class="label">INVENTORY</div>
+      <h3 style="margin:10px 0;">Stock Report</h3>
+      <button class="btn btn-dark" onclick="exportInventory()">Export CSV</button>
+    </div>
+
+    <div class="card">
+      <div class="label">PREVENTIVE MAINTENANCE</div>
+      <h3 style="margin:10px 0;">PM Completion Report</h3>
+      <span class="badge orange">Awaiting PM setup</span>
+    </div>
+
+    <div class="card">
+      <div class="label">PARTS</div>
+      <h3 style="margin:10px 0;">Parts Usage Report</h3>
+      <span class="badge gray">No transactions yet</span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="page" id="settings">
+
+  <div class="page-head">
+    <h2>Administration</h2>
+    <p>DMIS system configuration.</p>
+  </div>
+
+  <div class="panel">
+
+    <table>
+      <thead>
+        <tr>
+          <th>Configuration</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>User Accounts & Roles</td>
+          <td><span class="badge orange">Backend Required</span></td>
+        </tr>
+
+        <tr>
+          <td>PM Programs</td>
+          <td><span class="badge orange">Awaiting Official PM Data</span></td>
+        </tr>
+
+        <tr>
+          <td>Minimum Stock Levels</td>
+          <td><span class="badge orange">Not Configured</span></td>
+        </tr>
+
+        <tr>
+          <td>Machine Fleet</td>
+          <td><span class="badge green">3 Machines Loaded</span></td>
+        </tr>
+
+        <tr>
+          <td>Inventory Locations</td>
+          <td><span class="badge green">19 Locations Loaded</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
 
 </section>
 
 </main>
 
-</div>
 
 <script>
 
-function showPage(pageId, element) {
+const parts = [
+["86727280","Hyd. Filter Element","MCL 1/1",13,"pcs"],
+["69041541","Filter Assembly","MCL 1/4",1,"pcs"],
+["55022978","Solenoid","MCL 1/3",2,"pcs"],
+["55050557","Slide Piece","MCL 1/3",2,"pcs"],
+["26380298","Small Ring","MCL 1/3",10,"pcs"],
+["","Big Ring","MCL 1/3","","Not recorded"],
+["88639149","Solenoid","MCL 1/3",1,"pcs"],
 
-  const pages = document.querySelectorAll(".page");
+["86727280","Hyd. Filter Element","MCL 2/1",13,"pcs"],
+["AF20020063","Internal Circlip","MCL 2/2",1,"pcs"],
+["55037911","Side Bolt","MCL 2/2",4,"pcs"],
+["20910448","Slide","MCL 2/2",3,"pair"],
+["AF06400432","Screw, Hexagon, Head Pull Bolt","MCL 2/2",2,"pcs"],
+["AF00600169","Screw, Socket Head, Low, Hexagon","MCL 2/2",1,"pcs"],
+["AF03000038","Washer, Lock, Disk-L","MCL 2/2",3,"pcs"],
 
-  pages.forEach(page => {
-    page.classList.remove("active");
+["BG01353396","Filter Element","MCL 2/3",3,"pcs"],
+["86751879","Seal Kit - Bom Path","MCL 2/3",1,"pcs"],
+["55210423","Ventilating Filter Cap","MCL 2/3",2,"pcs"],
+["15237278","Gland","MCL 2/3",2,"pcs"],
+["15060968","Ring, Slip","MCL 2/3",4,"pcs"],
+["88021199","Dust Collector Filter Insert","MCL 2/4",7,"pcs"],
+
+["23617617","Jaw R.H.","MCL 3/1",1,"pcs"],
+["23617618","Jaw L.H.","MCL 3/1",1,"pcs"],
+["23777028","Pito Jaw Cylinder","MCL 3/1",1,"pcs"],
+["55007741","Suction Head Cylinder","MCL 3/1",2,"pcs"],
+
+["","M32 Plug and Cap","MCL 3/2","","Not recorded"],
+["","M30 Plug and Cap","MCL 3/2","","Not recorded"],
+["80159269","Hex Bolt","MCL 3/2",30,"pcs"],
+["","M6 Plug","MCL 3/2","","Not recorded"],
+
+["BG00934785","Belt","MCL 3/3",10,"pcs"],
+["BG01618917","Valve Assembly, Pressure Reducing Valve","MCL 3/3",2,"pcs"],
+["55011218","Control Valve","MCL 3/3",3,"pcs"],
+["55073166","Pressure Reducing Valve","MCL 3/3",3,"pcs"],
+["808825-AT","Control Valve","MCL 3/3",4,"pcs"],
+["80759069","Valve","MCL 3/3",2,"pcs"],
+["55174777","Pressure Reducing Valve 32bar","MCL 3/3",3,"pcs"],
+
+["095517098","Stand","MCL 4/2",1,"pcs"],
+["55071133","Bearing Bushing","MCL 4/2",1,"pcs"],
+["23611948","Pin Assy.","MCL 4/2",1,"pcs"],
+["23328888","Bearing Bushing","MCL 4/2",2,"pcs"],
+["23328758","Bearing, Bushing","MCL 4/2",2,"pcs"],
+["133394418","Bushing","MCL 4/2","","Not recorded"],
+
+["88110729","3/2 Hydr. Control Valve","MCL 4/3",5,"pcs"],
+["88638829","Control Valve","MCL 4/3",3,"pcs"],
+["020067","External Circlip","MCL 4/3",2,"pcs"],
+["1R-0762","Fuel Filter","MCL 4/3",2,"pcs"],
+["BG00215001","Proportional Pressure E Relief Valve","MCL 4/3",1,"pcs"],
+
+["BG00329329","Mirror","MCL 5/2",2,"pcs"],
+["34483978","Bushing","MCL 5/2",2,"pcs"],
+["55071134","Pin","MCL 5/2","","Not recorded"],
+
+["BG00327450","Lock","MCL 5/3",3,"pcs"],
+["88610369","Handle","MCL 5/3",3,"pcs"],
+
+["23618478","Jaw 2 3/8 IN","MCL 6/1",4,"pcs"],
+["23617618","Jaw L.H","MCL 6/1",2,"pcs"],
+["23618508","Jaw 2 3/8","MCL 6/1",2,"pcs"],
+
+["55199068","Filter Element","MCL 6/2",10,"pcs"],
+["","Bushing","MCL 6/2",3,"pcs"],
+
+["55059234","Roller Bearing","MCL 6/3",4,"pcs"],
+["55003492","Guide","MCL 6/3",4,"pcs"],
+["33059858","Idler Wheel","MCL 6/3",2,"pcs"],
+["20948408","Idler Wheel Cover","MCL 6/3",4,"pcs"],
+["23333588","Shaft","MCL 6/3","","Not recorded"],
+
+["15191708","Gasket","MCL 7/2",1,"pcs"],
+["","Gasket Small","MCL 7/2","","Not recorded"],
+
+["81893749","Filter Element","MCL 8/2",5,"pcs"],
+["87270109","Filter Element","MCL 8/2",5,"pcs"]
+];
+
+
+const locations = [
+"MCL 1/1","MCL 1/3","MCL 1/4",
+"MCL 2/1","MCL 2/2","MCL 2/3","MCL 2/4",
+"MCL 3/1","MCL 3/2","MCL 3/3",
+"MCL 4/2","MCL 4/3",
+"MCL 5/2","MCL 5/3",
+"MCL 6/1","MCL 6/2","MCL 6/3",
+"MCL 7/2",
+"MCL 8/2"
+];
+
+
+function showPage(page,menu){
+
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
   });
 
-  document.getElementById(pageId).classList.add("active");
+  document.getElementById(page).classList.add("active");
 
-  if(element) {
+  document.querySelectorAll(".menu").forEach(m=>{
+    m.classList.remove("active");
+  });
 
-    const navs = document.querySelectorAll(".nav");
+  if(menu){
+    menu.classList.add("active");
+  }
 
-    navs.forEach(nav => {
-      nav.classList.remove("active");
+  document.getElementById("sidebar").classList.remove("open");
+
+  window.scrollTo(0,0);
+}
+
+
+function openFromButton(page){
+
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  document.getElementById(page).classList.add("active");
+
+  document.querySelectorAll(".menu").forEach(m=>{
+    m.classList.remove("active");
+  });
+
+  window.scrollTo(0,0);
+}
+
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+
+function renderParts(){
+
+  const body = document.getElementById("partsBody");
+
+  const query =
+    (document.getElementById("partSearch").value || "")
+    .toLowerCase()
+    .trim();
+
+  const results = parts.filter(part=>{
+    return part.join(" ").toLowerCase().includes(query);
+  });
+
+  body.innerHTML="";
+
+  if(results.length===0){
+    body.innerHTML =
+      '<tr><td colspan="5" class="empty">No matching part found.</td></tr>';
+    return;
+  }
+
+  results.forEach(part=>{
+
+    const number =
+      part[0] || '<span class="badge orange">Not recorded</span>';
+
+    const quantity =
+      part[3] === "" ?
+      '<span class="badge orange">Not recorded</span>' :
+      part[3];
+
+    body.innerHTML += `
+      <tr>
+        <td><strong>${number}</strong></td>
+        <td>${part[1]}</td>
+        <td><span class="badge gray">${part[2]}</span></td>
+        <td>${quantity}</td>
+        <td>${part[4]}</td>
+      </tr>
+    `;
+  });
+}
+
+
+function renderLocations(){
+
+  const grid=document.getElementById("locationGrid");
+
+  grid.innerHTML="";
+
+  locations.forEach(location=>{
+
+    const count =
+      parts.filter(part=>part[2]===location).length;
+
+    grid.innerHTML += `
+      <div class="location"
+        onclick="searchLocation('${location}')">
+        <strong>${location}</strong>
+        <span>${count} inventory record${count===1 ? "" : "s"}</span>
+      </div>
+    `;
+  });
+}
+
+
+function searchLocation(location){
+
+  showPage("inventory");
+
+  document.getElementById("partSearch").value=location;
+
+  renderParts();
+}
+
+
+function exportInventory(){
+
+  let csv =
+    "Part Number,Description,Location,Quantity,Unit\n";
+
+  parts.forEach(part=>{
+
+    const row = part.map(value=>{
+      const text = String(value ?? "").replace(/"/g,'""');
+      return `"${text}"`;
     });
 
-    element.classList.add("active");
-  }
+    csv += row.join(",") + "\n";
+  });
+
+  const blob =
+    new Blob([csv],{type:"text/csv;charset=utf-8;"});
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const link =
+    document.createElement("a");
+
+  link.href=url;
+  link.download="DMIS_Inventory.csv";
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
 }
 
 
-function searchParts() {
-
-  const input =
-  document.getElementById("partSearch")
-  .value
-  .toLowerCase();
-
-  const table =
-  document.getElementById("partsTable");
-
-  const rows =
-  table.getElementsByTagName("tbody")[0]
-  .getElementsByTagName("tr");
-
-  for(let i = 0; i < rows.length; i++) {
-
-    const text =
-    rows[i].innerText.toLowerCase();
-
-    if(text.includes(input)) {
-      rows[i].style.display = "";
-    }
-    else {
-      rows[i].style.display = "none";
-    }
-  }
-}
+renderParts();
+renderLocations();
 
 </script>
 
