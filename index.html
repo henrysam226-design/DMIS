@@ -552,8 +552,8 @@ input:focus,select:focus,textarea:focus{
         onkeyup="renderParts()"
       >
 
-     <button class="btn btn-primary" onclick="alert('New part request workflow will be added in the next development stage.')">
-  + Request New Part
+    <button class="btn btn-primary" onclick="openPartRequestModal()">
+    + Request New Part
 </button>
 
       <button class="btn btn-light" onclick="exportInventory()">
@@ -580,8 +580,94 @@ input:focus,select:focus,textarea:focus{
   </div>
 
 </section>
+<!-- NEW PART REQUEST MODAL -->
+  <div id="partRequestModal" class="request-modal">
+  <div class="request-modal-content">
+<div class="request-modal-header">
+  <div>
+    <h2>Request New Part</h2>
+    <p>Submit a new inventory part for approval.</p>
+  </div>
 
+  <button type="button" class="modal-close" onclick="closePartRequestModal()">
+    &times;
+  </button>
+</div><form id="partRequestForm">
 
+  <div class="form-group">
+    <label for="requestPartNumber">Part Number</label>
+    <input
+      type="text"
+      id="requestPartNumber"
+      placeholder="Enter part number"
+      required
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="requestDescription">Part Description</label>
+    <input
+      type="text"
+      id="requestDescription"
+      placeholder="Enter part name or description"
+      required
+    >
+  </div>
+
+  <div class="form-group">
+  <label for="requestLocation">MCL Location</label>
+  <input
+    type="text"
+    id="requestLocation"
+    placeholder="Example: MCL 3/3"
+    required
+  >
+</div>
+
+<div class="form-group">
+  <label for="requestQuantity">Quantity</label>
+  <input
+    type="number"
+    id="requestQuantity"
+    placeholder="Enter quantity"
+    min="0"
+    required
+  >
+</div>
+
+<div class="form-group">
+  <label for="requestUnit">Unit</label>
+  <select id="requestUnit" required>
+    <option value="">Select unit</option>
+    <option value="pcs">pcs</option>
+    <option value="pair">pair</option>
+    <option value="set">set</option>
+  </select>
+</div>
+
+  <div class="form-group">
+  <label for="requestReason">Reason / Notes</label>
+  <textarea
+    id="requestReason"
+    rows="3"
+    placeholder="Explain why this part should be added"
+    required
+  ></textarea>
+</div>
+
+  <div class="form-actions">
+  <button type="button" class="btn btn-light" onclick="closePartRequestModal()">
+    Cancel
+  </button>
+
+  <button type="submit" class="btn btn-primary">
+    Submit Request
+  </button>
+</div>
+
+</form>
+  </div>
+</div>
 <section class="page" id="locations">
 
   <div class="page-head">
@@ -936,7 +1022,13 @@ input:focus,select:focus,textarea:focus{
 
 
 <script>
+function openPartRequestModal() {
+    document.getElementById("partRequestModal").style.display = "flex";
+}
 
+function closePartRequestModal() {
+    document.getElementById("partRequestModal").style.display = "none";
+}
 const parts = [
 ["86727280","Hyd. Filter Element","MCL 1/1",13,"pcs"],
 ["69041541","Filter Assembly","MCL 1/4",1,"pcs"],
