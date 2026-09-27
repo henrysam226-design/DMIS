@@ -791,7 +791,7 @@ input:focus,select:focus,textarea:focus{
       <p>Add stock received into a location.</p>
     </div>
 
-    <div class="card">
+    <div class="card" onclick="openIssueModal()" style="cursor:pointer;">
       <div class="label">ISSUE</div>
       <div class="value">−</div>
       <p>Issue parts for maintenance or repairs.</p>
@@ -820,6 +820,79 @@ input:focus,select:focus,textarea:focus{
   </div>
 
 </section>
+
+  <!-- ISSUE PART MODAL -->
+<div id="issuePartModal" class="request-modal">
+    <div class="request-modal-content">
+
+        <div class="request-modal-header">
+            <div>
+                <h2>Issue Part</h2>
+                <p>Record a spare part issued for maintenance or repair.</p>
+            </div>
+
+            <button type="button"
+                    class="modal-close"
+                    onclick="closeIssueModal()">
+                &times;
+            </button>
+        </div>
+
+        <form id="issuePartForm">
+
+            <label>Part Number</label>
+            <input type="text"
+                   id="issuePartNumber"
+                   placeholder="Enter part number"
+                   required>
+
+            <label>MCL Location</label>
+            <input type="text"
+                   id="issueLocation"
+                   placeholder="Example: MCL 2/3"
+                   required>
+
+            <label>Quantity</label>
+            <input type="number"
+                   id="issueQuantity"
+                   min="1"
+                   required>
+
+            <label>Machine</label>
+            <select id="issueMachine" required>
+                <option value="">Select machine</option>
+                <option value="TD20">TD20</option>
+                <option value="TD21">TD21</option>
+                <option value="TD22">TD22</option>
+            </select>
+
+            <label>Reason / Work Performed</label>
+            <textarea id="issueReason"
+                      placeholder="Why is this part being issued?"
+                      required></textarea>
+
+            <label>Technician</label>
+            <input type="text"
+                   id="issueTechnician"
+                   placeholder="Technician name"
+                   required>
+
+            <div class="modal-actions">
+                <button type="button"
+                        class="btn btn-light"
+                        onclick="closeIssueModal()">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Issue Part
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
 
 
 <section class="page" id="machines">
@@ -1122,6 +1195,13 @@ function openPartRequestModal() {
     document.getElementById("partRequestModal").style.display = "flex";
 }
 
+  function openIssueModal() {
+    document.getElementById("issuePartModal").style.display = "flex";
+}
+
+function closeIssueModal() {
+    document.getElementById("issuePartModal").style.display = "none";
+}
 function closePartRequestModal() {
     document.getElementById("partRequestModal").style.display = "none";
 }
