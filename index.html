@@ -490,6 +490,7 @@ input:focus,select:focus,textarea:focus{
 
   <div class="menu-title">INVENTORY</div>
   <div class="menu" onclick="showPage('inventory',this)">Parts Inventory</div>
+  <div class="menu" onclick="showPage('requests',this)">Part Requests</div>
   <div class="menu" onclick="showPage('locations',this)">Stock Locations</div>
   <div class="menu" onclick="showPage('movements',this)">Stock Movements</div>
 
@@ -642,6 +643,36 @@ input:focus,select:focus,textarea:focus{
     </div>
 
   </div>
+
+</section>
+
+  <section class="page" id="requests">
+
+    <div class="page-head">
+        <h2>Part Requests</h2>
+        <p>View inventory part requests submitted for approval.</p>
+    </div>
+
+    <div class="panel">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Part Number</th>
+                        <th>Description</th>
+                        <th>MCL Location</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Reason / Notes</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="partRequestsBody"></tbody>
+            </table>
+        </div>
+    </div>
 
 </section>
 <!-- NEW PART REQUEST MODAL -->
@@ -1208,8 +1239,45 @@ function submitPartRequest(event) {
     alert("New part request submitted successfully.");
 
     document.getElementById("partRequestForm").reset();
+  renderPartRequests();
     closePartRequestModal();
 }
+
+  function renderPartRequests() {
+    const tbody = document.getElementById("partRequestsBody");
+
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    if (partRequests.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8">No part requests submitted yet.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    partRequests.forEach(request => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${request.partNumber || "Not recorded"}</td>
+            <td>${request.description || "Not recorded"}</td>
+            <td>${request.location || "Not recorded"}</td>
+            <td>${request.quantity || "Not recorded"}</td>
+            <td>${request.unit || "Not recorded"}</td>
+            <td>${request.reason || "Not recorded"}</td>
+            <td>${request.submittedAt || "Not recorded"}</td>
+            <td>${request.status || "Pending"}</td>
+        `;
+
+        tbody.appendChild(row);
+    });
+}
+
+renderPartRequests();
 
 const locations = [
 "MCL 1/1","MCL 1/3","MCL 1/4",
