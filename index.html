@@ -656,7 +656,7 @@ input:focus,select:focus,textarea:focus{
   <button type="button" class="modal-close" onclick="closePartRequestModal()">
     &times;
   </button>
-</div><form id="partRequestForm">
+</div><form id="partRequestForm" onsubmit="submitPartRequest(event)">
 
   <div class="form-group">
     <label for="requestPartNumber">Part Number</label>
@@ -1093,6 +1093,7 @@ function openPartRequestModal() {
 function closePartRequestModal() {
     document.getElementById("partRequestModal").style.display = "none";
 }
+}
 const parts = [
 ["86727280","Hyd. Filter Element","MCL 1/1",13,"pcs"],
 ["69041541","Filter Assembly","MCL 1/4",1,"pcs"],
@@ -1174,7 +1175,42 @@ const parts = [
 ["81893749","Filter Element","MCL 8/2",5,"pcs"],
 ["87270109","Filter Element","MCL 8/2",5,"pcs"]
 ];
+// Store submitted new-part requests
+let partRequests = JSON.parse(localStorage.getItem("dmisPartRequests")) || [];
 
+function submitPartRequest(event) {
+    event.preventDefault();
+
+    const partNumber = document.getElementById("requestPartNumber").value.trim();
+    const description = document.getElementById("requestDescription").value.trim();
+    const location = document.getElementById("requestLocation").value.trim();
+    const quantity = document.getElementById("requestQuantity").value;
+    const unit = document.getElementById("requestUnit").value;
+    const reason = document.getElementById("requestReason").value.trim();
+
+    const newRequest = {
+        partNumber,
+        description,
+        location,
+        quantity,
+        unit,
+        reason,
+        status: "Pending",
+        submittedAt: new Date().toLocaleString()
+    };
+
+    partRequests.push(newRequest);
+
+    localStorage.setItem(
+        "dmisPartRequests",
+        JSON.stringify(partRequests)
+    );
+
+    alert("New part request submitted successfully.");
+
+    document.getElementById("partRequestForm").reset();
+    closePartRequestModal();
+}
 
 const locations = [
 "MCL 1/1","MCL 1/3","MCL 1/4",
