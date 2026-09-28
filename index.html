@@ -838,7 +838,7 @@ input:focus,select:focus,textarea:focus{
             </button>
         </div>
 
-        <form id="issuePartForm">
+<form id="issuePartForm" onsubmit="submitIssuePart(event)">
 
             <label>Part Number</label>
             <input type="text"
@@ -846,18 +846,21 @@ input:focus,select:focus,textarea:focus{
                    placeholder="Enter part number"
                    required>
 
+          
             <label>MCL Location</label>
             <input type="text"
                    id="issueLocation"
                    placeholder="Example: MCL 2/3"
                    required>
 
+          
             <label>Quantity</label>
             <input type="number"
                    id="issueQuantity"
                    min="1"
                    required>
 
+          
             <label>Machine</label>
             <select id="issueMachine" required>
                 <option value="">Select machine</option>
@@ -1202,6 +1205,83 @@ function openPartRequestModal() {
 function closeIssueModal() {
     document.getElementById("issuePartModal").style.display = "none";
 }
+
+function submitIssuePart(event) {
+    event.preventDefault();
+
+    const partNumber = document.getElementById("issuePartNumber").value.trim();
+    const location = document.getElementById("issueLocation").value.trim();
+    const quantity = Number(document.getElementById("issueQuantity").value);
+    const machine = document.getElementById("issueMachine").value;
+    const reason = document.getElementById("issueReason").value.trim();
+    const technician = document.getElementById("issueTechnician").value.trim();
+
+  const partIndex = parts.findIndex(part =>
+    part[0].toLowerCase() === partNumber.toLowerCase() &&
+    part[2].toLowerCase() === location.toLowerCase()
+);
+
+if (partIndex === -1) {
+    alert("Part not found at this MCL location. Check the part number and location.");
+    return;
+}
+
+const currentQuantity = Number(parts[partIndex][3]);
+
+if (isNaN(currentQuantity)) {
+    alert("The stock quantity for this part is not recorded. It cannot be issued yet.");
+    return;
+}
+
+if (quantity > currentQuantity) {
+    alert("Not enough stock. Available quantity: " + currentQuantity);
+    return;
+}
+
+// Deduct issued quantity from stock
+parts[partIndex][3] = currentQuantity - quantity;
+
+// Create transaction record
+const transaction = {
+    type: "ISSUE",
+    partNumber: partNumber,
+    description: parts[partIndex][1],
+    location: location,
+    quantity: quantity,
+    unit: parts[partIndex][4],
+    machine: machine,
+    reason: reason,
+    technician: technician,
+    date: new Date().toLocaleString()
+};
+
+// Save transaction history
+let stockTransactions =
+    JSON.parse(localStorage.getItem("dmisStockTransactions")) || [];
+
+stockTransactions.push(transaction);
+
+localStorage.setItem(
+    "dmisStockTransactions",
+    JSON.stringify(stockTransactions)
+);
+
+// Save updated inventory
+localStorage.setItem(
+    "dmisParts",
+    JSON.stringify(parts)
+);
+
+alert(
+    "Part issued successfully.\n" +
+    "Remaining stock: " + parts[partIndex][3] + " " + parts[partIndex][4]
+);
+
+document.getElementById("issuePartForm").reset();
+closeIssueModal();
+  
+}
+  
 function closePartRequestModal() {
     document.getElementById("partRequestModal").style.display = "none";
 }
